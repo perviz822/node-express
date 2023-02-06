@@ -36,34 +36,21 @@
 
  server.listen(5000)
  */
-
  const express =  require('express');
  const bodyParser =  require('body-parser')
-
  const app=express();
+app.use(bodyParser.urlencoded({extended:false}))
 
- app.use((req,res,next)=>{
-   let body = '';
-    req.on('data',chunk=>{
-      body+=chunk;
-        
-    })
-    req.on('end',()=>{
-      const name=  body.split('=')[1];
-     if(name){
-       req.body =  {userName:name};
-     }
-      next()
-    })
-    console.log("MIDDLEWARE")
-   // res.send('<form method= "POST"> <input type="text" name="username"> <button type="submit"> Create username</button> </form>')
- })
- app.use((req,res,next)=>{
-   if (req.body){
-      res.send(`<h1>${req.body.userName} </h1>`)
-   }
-    res.send('<form method= "POST"> <input type="text" name="username"> <button type="submit"> Create username</button> </form>')
-    next()
+app.post('/user',(req,res,next)=>{
+   console.log(req.body.userName)
+     res.send(`<h1> ${req.body.username} </h1>`)
+})
+ 
+ app.get('/',(req,res,next)=>{
+   console.log("hry")
+    res.send('<form  action ="/user" method= "POST"> <input type="text" name="username"> <button type="submit"> Create username</button> </form>')
  })
 
  app.listen(5000);
+
+ 
